@@ -1,0 +1,42 @@
+zeebe:
+  broker:
+    exporters:
+      redis:
+        className: io.zeebe.redis.exporter.RedisExporter
+        jarPath: exporters/zeebe-redis-exporter-jar-with-dependencies.jar
+        args:
+          # Redis connection url (redis://...)
+          # remoteAddress:
+
+          # comma separated list of io.zeebe.protocol.record.ValueType to export or empty to export all types
+          enabledValueTypes: ""
+
+          # comma separated list of io.zeebe.protocol.record.RecordType to export or empty to export all types
+          enabledRecordTypes: ""
+
+          # Redis Stream prefix
+          name: "zeebe"
+
+          # Redis stream data cleanup cycle time in seconds. Default is 1 minute. Set to 0 or -1 in order to completely disable cleanup.
+          cleanupCycleInSeconds: 60
+
+          # Redis stream data minimum time-to-live in seconds. Default is 0 (disabled). Set to a value > 0 in order to keep acknowledged messages alive for a minimum time.
+          minTimeToLiveInSeconds: 0
+
+          # Redis stream data maximum time-to-live in seconds. Default is 5 minutes. Set to 0 or -1 in order to prevent max TTL cleanup.
+          maxTimeToLiveInSeconds: 300
+
+          # Redis stream automatic cleanup of acknowledged messages. Default is false.
+          deleteAfterAcknowledge: false
+
+          # Redis Client IO-Thread-Pool-Size. Default is number of available processors but not smaller than 2.
+          ioThreadPoolSize: 2
+
+          # Redis batch size for flushing commands when sending data to Redis streams. Default is 250. Maximum number of events which will be flushed simultaneously.
+          batchSize: 250
+
+          # Redis batch cycle in milliseconds for sending data to Redis streams. Default is 500. Even if the batch size has not been reached events will be sent after this time.
+          batchCycleMillis: 500
+
+          # record serialization format: [protobuf|json]
+          format: "protobuf"
