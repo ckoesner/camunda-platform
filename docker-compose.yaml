@@ -9,6 +9,7 @@
 # This is a full configuration with Zeebe, Operate, Tasklist, Optimize, Identity, Keycloak, and Elasticsearch
 # See docker-compose-core.yml for a lightweight configuration that does not include Optimize, Identity, and Keycloak.
 
+name: zeebe-elastic-redis
 services:
 
   zeebe: # https://docs.camunda.io/docs/self-managed/platform-deployment/docker/#zeebe
@@ -31,6 +32,9 @@ services:
       - ZEEBE_BROKER_DATA_DISKUSAGECOMMANDWATERMARK=0.998
       - ZEEBE_BROKER_DATA_DISKUSAGEREPLICATIONWATERMARK=0.999
       - "JAVA_TOOL_OPTIONS=-Xms512m -Xmx512m"
+      - ZEEBE_REDIS_REMOTE_ADDRESS=redis://redis:6379
+      - ZEEBE_REDIS_TIME_TO_LIVE_IN_SECONDS=900
+      - ZEEBE_LOG_LEVEL=debug
     restart: always
     healthcheck:
       test: [ "CMD-SHELL", "timeout 10s bash -c ':> /dev/tcp/127.0.0.1/9600' || exit 1" ]
@@ -40,11 +44,14 @@ services:
       start_period: 30s
     volumes:
       - zeebe:/usr/local/zeebe/data
+      - ./exporter/zeebe-redis-exporter-jar-with-dependencies.jar:/usr/local/zeebe/exporters/zeebe-redis-exporter-jar-with-dependencies.jar
+      - ./exporter/application.yaml:/usr/local/zeebe/config/application.yaml
     networks:
       - camunda-platform
     depends_on:
       - elasticsearch
       - identity
+      - redis
 
   operate: # https://docs.camunda.io/docs/self-managed/platform-deployment/docker/#operate
     image: camunda/operate:${CAMUNDA_PLATFORM_VERSION}
@@ -351,6 +358,14 @@ services:
       - elasticsearch
     profiles:
       - kibana
+
+  redis:
+    container_name: redis_cache
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - camunda-platform
 
 volumes:
   zeebe:
