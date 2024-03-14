@@ -60,8 +60,6 @@ zeebe:
               buffer.memory=8388608
               batch.size=32768
               max.block.ms=5000
-              transaction.state.log.replication.factor=1
-              transaction.state.log.min.isr=1
             # acks=1
             # enable.idempotence=false
 
@@ -86,34 +84,34 @@ zeebe:
             # it will fall back to whatever is configured in the defaults
             defaults: { type: "", topic: zeebe }
             # For records with a value of type DEPLOYMENT
-            deployment: { topic: zeebe-deployment }
+            deployment: { type: "", topic: zeebe-deployment }
             # For records with a value of type DEPLOYMENT_DISTRIBUTION
-            deploymentDistribution: { topic: zeebe-deployment-distribution }
+            deploymentDistribution: { type: "", topic: zeebe-deployment-distribution }
             # For records with a value of type ERROR
-            error: { topic: zeebe-error }
+            error: { type: event, topic: zeebe}
             # For records with a value of type INCIDENT
-            incident: { topic: zeebe-incident }
+            incident: { type: "",  topic: zeebe-incident }
             # For records with a value of type JOB_BATCH
-            jobBatch: { topic: zeebe-job-batch }
+            jobBatch: { type: "",  topic: zeebe-job-batch }
             # For records with a value of type JOB
-            job: { type: "event", topic: zeebe-job }
+            job: {type: event, topic: zeebe }
             # For records with a value of type MESSAGE
-            message: {topic: zeebe-message }
+            message: { type: "", topic: zeebe-message }
             # For records with a value of type MESSAGE_SUBSCRIPTION
-            messageSubscription: { topic: zeebe-message-subscription }
+            messageSubscription: { type: "",  topic: zeebe-message-subscription }
             # For records with a value of type MESSAGE_START_EVENT_SUBSCRIPTION
-            messageStartEventSubscription: { topic: zeebe-message-subscription-start-event }
+            messageStartEventSubscription: { type: "",  topic: zeebe-message-subscription-start-event }
             # For records with a value of type PROCESS
-            process: { topic: zeebe-process }
+            process: { type: event, topic: zeebe }
             # For records with a value of type PROCESS_EVENT
-            processEvent: { topic: zeebe-process-event }
+            processEvent: { type: event, topic: zeebe }
             # For records with a value of type PROCESS_INSTANCE
-            processInstance: { topic: zeebe-process-instance }
+            processInstance: { type: event, topic: zeebe }
             # For records with a value of type PROCESS_INSTANCE_RESULT
-            processInstanceResult: { topic: zeebe-process-instance-result }
+            processInstanceResult: { type: "", topic: zeebe-process-instance-result }
             # For records with a value of type PROCESS_MESSAGE_SUBSCRIPTION
-            processMessageSubscription: { topic: zeebe-process-message-subscription }
+            processMessageSubscription: { type: "",  topic: zeebe-process-message-subscription }
             # For records with a value of type TIMER
-            timer: { topic: zeebe-timer }
+            timer: { type: "",  topic: zeebe-timer }
             # For records with a value of type VARIABLE
-            variable: { topic: zeebe-variable }
+            variable: { type: "",  topic: zeebe-variable }
