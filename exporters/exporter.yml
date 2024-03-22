@@ -107,6 +107,8 @@ zeebe:
             processEvent: { type: event, topic: zeebe }
             # For records with a value of type PROCESS_INSTANCE
             processInstance: { type: event, topic: zeebe }
+            # For records with a value of type PROCESS_INSTANCE_CREATION
+            processInstanceCreation: { type: event, topic: zeebe }
             # For records with a value of type PROCESS_INSTANCE_RESULT
             processInstanceResult: { type: "", topic: zeebe-process-instance-result }
             # For records with a value of type PROCESS_MESSAGE_SUBSCRIPTION
