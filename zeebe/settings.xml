@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+		  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+	<servers>
+		<server>
+			<id>zeebe-exporter</id>
+			<configuration>
+				<httpHeaders>
+					<property>            
+						<name>Authorization</name>
+						<value>Bearer ${token}</value>
+					</property>
+				</httpHeaders>
+			</configuration>  
+		</server>
+	</servers>
+
+	<profiles>
+		<profile>
+			<id>github</id>
+			<repositories>
+				<repository>
+					<id>central</id>
+					<url>https://repo1.maven.org/maven2</url>
+				</repository>
+				<repository>
+					<id>zeebe-exporter</id>
+					<name>Zeebe Exporter Repository</name>
+					<url>https://maven.pkg.github.com/phactum/zeebe-kafka-exporter</url>
+					<releases>
+						<enabled>true</enabled>
+					</releases>
+					<snapshots>
+						<enabled>true</enabled>
+					</snapshots>
+				</repository>
+			</repositories>
+		</profile>
+	</profiles>
+</settings>

@@ -12,7 +12,11 @@
 services:
 
   zeebe: # https://docs.camunda.io/docs/self-managed/platform-deployment/docker/#zeebe
-    image: camunda/zeebe:${CAMUNDA_PLATFORM_VERSION}
+    image: zeebe-kafka
+    build: 
+        context: ./zeebe/
+        args:
+            github_token: ${GITHUB_TOKEN}
     container_name: zeebe
     ports:
       - "26500:26500"
@@ -41,7 +45,6 @@ services:
     volumes:
       - zeebe:/usr/local/zeebe/data
       - ./exporters/exporter.yml:/usr/local/zeebe/config/exporter.yml
-      - ./exporters/zeebe-kafka-exporter-jar-with-dependencies.jar:/usr/local/zeebe/exporters/zeebe-kafka-exporter-jar-with-dependencies.jar
     networks:
       - camunda-platform
     depends_on:
@@ -387,9 +390,19 @@ services:
       KAFKA_DEFAULT_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_NUM_PARTITIONS: 1
-    
     networks:
       - camunda-platform
+    
+  kafka-setup:
+    image: kafka-setup
+    build: ./kafka/
+    container_name: kafka-setup
+    restart: "no"
+    depends_on:
+      - kafka
+    networks:
+      - camunda-platform
+
 volumes:
   zeebe:
   elastic:
